@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Pousadas</title>
+    <link rel="stylesheet" href="static/style.css">
+    <script src="static/script.js" defer></script>
+</head>
+<body>
+    <h1>Gerenciamento de Pousadas</h1>
+
+    <h2>Cadastrar Cliente</h2>
+    <input type="text" id="nome_cliente" placeholder="Nome do Cliente">
+    <button onclick="cadastrarCliente()">Cadastrar Cliente</button>
+
+    <h2>Cadastrar Pousada</h2>
+    <input type="text" id="nome_pousada" placeholder="Nome da Pousada">
+    <button onclick="cadastrarPousada()">Cadastrar Pousada</button>
+
+    <h2>Clientes Cadastrados</h2>
+    <button onclick="listarClientes()">Listar Clientes</button>
+    <ul id="lista_clientes"></ul>
+
+    <h2>Pousadas Cadastradas</h2>
+    <button onclick="listarPousadas()">Listar Pousadas</button>
+    <ul id="lista_pousadas"></ul>
+
+    <div id="resultado"></div>
+</body>
+</html>

@@ -69,17 +69,22 @@ def reservar_pousada():
 
 @app.route('/listar_pousadas_reservadas', methods=['GET'])
 def listar_pousadas_reservadas():
-    reservas = db.all()
-    pousadas_reservadas = set()
-    for reserva in reservas:
-        if reserva['tipo'] == 'reserva':
-            pousadas_reservadas.add(reserva['pousada_id'])
-    
+    reservas = db.search(Query().tipo == 'reserva')
     pousadas_reservadas_info = []
-    for pousada_id in pousadas_reservadas:
-        pousada_info = db.search((Query().tipo == 'pousada') & (Query().id == pousada_id))
-        if pousada_info:
-            pousadas_reservadas_info.append(pousada_info[0])  # Adiciona a pousada correspondente
+
+    for reserva in reservas:
+        pousada_info = db.search((Query().tipo == 'pousada') & (Query().id == reserva['pousada_id']))
+        cliente_info = db.search((Query().tipo == 'cliente') & (Query().cpf_cnpj == reserva['cpf_cnpj']))
+        
+        if pousada_info and cliente_info:
+            pousada_detalhes = pousada_info[0]
+            cliente_detalhes = cliente_info[0]
+            pousadas_reservadas_info.append({
+                'pousada_nome': pousada_detalhes['nome'],
+                'pousada_id': pousada_detalhes['id'],
+                'cliente_nome': cliente_detalhes['nome'],
+                'cliente_cpf_cnpj': cliente_detalhes['cpf_cnpj']
+            })
     
     return jsonify(pousadas_reservadas_info), 200
 
@@ -100,6 +105,21 @@ def listar_pousadas_livres():
             pousadas_livres_info.append(pousada)
     
     return jsonify(pousadas_livres_info), 200
+
+@app.route('/remover_reserva', methods=['POST'])
+def remover_reserva():
+    cpf_cnpj = request.form.get('cpf_cnpj')
+    pousada_id = request.form.get('pousada_id')
+
+    if cpf_cnpj and pousada_id:
+        Reserva = Query()
+        reserva = db.search((Reserva.tipo == 'reserva') & (Reserva.cpf_cnpj == cpf_cnpj) & (Reserva.pousada_id == pousada_id))
+        
+        if reserva:
+            db.remove((Reserva.tipo == 'reserva') & (Reserva.cpf_cnpj == cpf_cnpj) & (Reserva.pousada_id == pousada_id))
+            return jsonify({'message': 'Reserva removida com sucesso!'}), 200
+        return jsonify({'message': 'Reserva não encontrada!'}), 404
+    return jsonify({'message': 'Falha ao remover reserva! Campos vazios.'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)  # Usando a porta 8080

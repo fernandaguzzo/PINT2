@@ -162,3 +162,4 @@ function removerReserva() {
     .catch(error => console.error('Erro:', error));
 }
 
+// As funções listarClientes, listarPousadas, listarPousadasReservadas, listarPousadasLivres e ocultarLista permanecem inalteradas

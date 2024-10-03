@@ -1,3 +1,9 @@
+function ocultarLista(listaId) {
+    const lista = document.getElementById(listaId);
+    lista.innerHTML = ''; // Limpa a lista
+    lista.style.display = 'none'; // Oculta a lista
+}
+
 function cadastrarCliente() {
     const nome = document.getElementById('nome_cliente').value;
     const cpf_cnpj = document.getElementById('cpf_cnpj').value;
@@ -84,6 +90,7 @@ function listarClientes() {
             li.textContent = `${cliente.nome} - CPF/CNPJ: ${cliente.cpf_cnpj}`;
             lista.appendChild(li);
         });
+        lista.style.display = 'block'; // Exibir lista
     });
 }
 
@@ -98,6 +105,7 @@ function listarPousadas() {
             li.textContent = `${pousada.nome} - ID: ${pousada.id}`;
             lista.appendChild(li);
         });
+        lista.style.display = 'block'; // Exibir lista
     });
 }
 
@@ -109,9 +117,10 @@ function listarPousadasReservadas() {
         lista.innerHTML = '';
         data.forEach(pousada => {
             const li = document.createElement('li');
-            li.textContent = `${pousada.nome} - ID: ${pousada.id}`;
+            li.textContent = `Pousada: ${pousada.pousada_nome} - ID: ${pousada.pousada_id} | Reservada por: ${pousada.cliente_nome} (CPF/CNPJ: ${pousada.cliente_cpf_cnpj})`;
             lista.appendChild(li);
         });
+        lista.style.display = 'block'; // Exibir lista
     });
 }
 
@@ -126,5 +135,30 @@ function listarPousadasLivres() {
             li.textContent = `${pousada.nome} - ID: ${pousada.id}`;
             lista.appendChild(li);
         });
+        lista.style.display = 'block'; // Exibir lista
     });
 }
+
+function removerReserva() {
+    const cpf_cnpj = document.getElementById('cpf_remover').value;
+    const pousada_id = document.getElementById('id_pousada_remover').value;
+
+    fetch('/remover_reserva', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'cpf_cnpj': cpf_cnpj,
+            'pousada_id': pousada_id
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('resultado').innerText = data.message;
+        document.getElementById('cpf_remover').value = ''; // Limpar campo
+        document.getElementById('id_pousada_remover').value = ''; // Limpar campo
+    })
+    .catch(error => console.error('Erro:', error));
+}
+

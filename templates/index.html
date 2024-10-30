@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Pousadas</title>
+    <link rel="stylesheet" href="static/style.css">
+    <script src="static/script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Gerenciamento de Pousadas</h1>
+        <div id="resultado" class="result-box"></div>
+    </header>
+
+    <main class="container">
+        <section class="form-section">
+            <h2>Cadastrar Cliente</h2>
+            <input type="text" id="nome_cliente" placeholder="Nome do Cliente">
+            <input type="text" id="cpf_cnpj" placeholder="CPF ou CNPJ">
+            <input type="text" id="telefone" placeholder="Telefone">
+            <input type="email" id="email" placeholder="E-mail">
+            <button onclick="cadastrarCliente()">Cadastrar Cliente</button>
+        </section>
+
+        <section class="form-section">
+            <h2>Cadastrar Pousada</h2>
+            <input type="text" id="id_pousada" placeholder="ID da Pousada">
+            <input type="text" id="nome_pousada" placeholder="Nome da Pousada">
+            <input type="text" id="valor_pousada" placeholder="Valor da Pousada" oninput="formatCurrencyMachineInput(this)">
+            <button onclick="cadastrarPousada()">Cadastrar Pousada</button>
+        </section>
+
+        <section class="form-section">
+            <h2>Reservar Pousada</h2>
+            <input type="text" id="cpf_reserva" placeholder="CPF ou CNPJ do Cliente">
+            <input type="text" id="id_pousada_reserva" placeholder="ID da Pousada">
+            <label>Data de Término:</label>
+            <input type="date" id="data_fim_reserva">
+            <button onclick="reservarPousada()">Reservar Pousada</button>
+        </section>
+
+        <section class="list-section">
+            <h2>Clientes Cadastrados</h2>
+            <button onclick="listarClientes()">Listar Clientes</button>
+            <button onclick="ocultarTabela('lista_clientes')">Ocultar Clientes</button>
+            <ul id="lista_clientes" class="hidden"></ul>
+        </section>
+
+        <section class="list-section">
+            <h2>Pousadas Cadastradas</h2>
+            <button onclick="listarPousadas()">Listar Pousadas</button>
+            <button onclick="ocultarTabela('lista_pousadas')">Ocultar Pousadas</button>
+            <ul id="lista_pousadas" class="hidden"></ul>
+        </section>
+
+        <section class="list-section">
+            <h2>Pousadas Reservadas</h2>
+            <button onclick="listarPousadasReservadas()">Listar Pousadas Reservadas</button>
+            <button onclick="ocultarTabela('lista_pousadas_reservadas')">Ocultar Pousadas Reservadas</button>
+            <ul id="lista_pousadas_reservadas" class="hidden"></ul>
+        </section>
+
+        <section class="list-section">
+            <h2>Pousadas Livres</h2>
+            <button onclick="listarPousadasLivres()">Listar Pousadas Livres</button>
+            <button onclick="ocultarTabela('lista_pousadas_livres')">Ocultar Pousadas Livres</button>
+            <ul id="lista_pousadas_livres" class="hidden"></ul>
+        </section>
+
+        
+    </main>
+</body>
+</html>
